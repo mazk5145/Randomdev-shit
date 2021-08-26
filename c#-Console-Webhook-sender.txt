@@ -1,0 +1,62 @@
+// PoseidonUploader.exe 26.8.21
+// PoseidonUploader.exe 26.8.21
+// PoseidonUploader.exe 26.8.21
+ 
+        static void Main(string[] args)
+        {
+            webhuuks(); // STARTS Webhook sender
+        }
+ 
+        public static void webhuuks()
+        {
+            //Webhook sender C# Console
+            Console.Clear();
+            WriteColor("[Webhook]: ", ("{[Webhook]:}", ConsoleColor.Blue));
+            string webhook = Console.ReadLine();
+            Console.WriteLine("");
+            WriteColor("[Username]: ", ("{[Username]:}", ConsoleColor.Blue));
+            string uuseri = Console.ReadLine();
+            Console.WriteLine("");
+            WriteColor("[Title]: ", ("{[Title]:}", ConsoleColor.Blue));
+            string title = Console.ReadLine();
+            Console.WriteLine("");
+            WriteColor("[Desc]: ", ("{[Desc]:}", ConsoleColor.Blue));
+            string desc = Console.ReadLine();
+ 
+            string url = webhook;
+            string json = "{\"username\": \"" + uuseri + "\",\"embeds\":[    {\"description\":\"" + desc + "\", \"title\":\"" + title + "\", \"color\":1018364}]  }";
+            sendDiscordWebhook(url, json);
+        }
+        public static void sendDiscordWebhook(string URL, string escapedjson)
+        {
+            var wr = WebRequest.Create(URL);
+            wr.ContentType = "application/json";
+            wr.Method = "POST";
+            using (var sw = new StreamWriter(wr.GetRequestStream()))
+                sw.Write(escapedjson);
+            wr.GetResponse();
+            Console.WriteLine("Webhook sended!");
+        }
+ 
+        private static void WriteColor(string str, params (string substring, ConsoleColor color)[] colors)
+        {
+            var words = Regex.Split(str, @"( )");
+ 
+            foreach (var word in words)
+            {
+                (string substring, ConsoleColor color) cl = colors.FirstOrDefault(x => x.substring.Equals("{" + word + "}"));
+                if (cl.substring != null)
+                {
+                    Console.ForegroundColor = cl.color;
+                    Console.Write(cl.substring.Substring(1, cl.substring.Length - 2));
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.Write(word);
+                }
+            }
+        }
+// PoseidonUploader.exe 26.8.21
+// PoseidonUploader.exe 26.8.21
+// PoseidonUploader.exe 26.8.21
